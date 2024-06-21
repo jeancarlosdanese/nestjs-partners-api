@@ -1,0 +1,44 @@
+### Get Events 
+GET http://localhost:3000/events
+
+### Create Event
+# @name createdEvent
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+  "name": "Event Name",
+  "description": "Event Description",
+  "date": "2020-12-12T00:00:00",
+  "price": 100
+}
+
+
+### 
+@eventId = {{ createdEvent.response.body.id }}
+
+### Get Event
+GET http://localhost:3000/events/{{eventId}}
+
+### Create Spot
+# @name createdSpot
+POST http://localhost:3000/events/{{eventId}}/spots
+Content-Type: application/json
+
+{
+  "name": "A2"
+}
+
+###
+@spotName = {{ createdSpot.response.body.name }}
+
+### Reserve Spot
+POST http://localhost:3000/events/{{eventId}}/reserve
+Content-Type: application/json
+X-Api-Token: 123
+
+{
+  "spots": ["{{ spotName }}"],
+  "ticket_kind": "full",
+  "email": "test@test.com"
+}
